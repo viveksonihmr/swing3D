@@ -26,6 +26,8 @@ public class MyRenderer implements GLSurfaceView.Renderer
     private float posY = 0.0f;
     private float posZ = 0.0f;
 
+    ArrayList<Float> vertexBuff = new  ArrayList<Float>();
+
     @Override
     public void onSurfaceCreated(GL10 gl, javax.microedition.khronos.egl.EGLConfig config)
     {
@@ -90,9 +92,25 @@ public class MyRenderer implements GLSurfaceView.Renderer
             mLine.insertVertex(x,y,z);
         }
         readButtonTapped = 1;
+        vertexBuff = mLine.getVertexes();
         return mLine.getVertexes();
     }
 
+    public void DrawTo(int it)
+    {
+        ArrayList<Float> iVertex = new ArrayList<Float>();
+        for(int i = 0; i < it; i++)
+        {
+            iVertex.add(vertexBuff.get(i));
+        }
+
+        mLine.setVertexes(iVertex);
+    }
+
+    public int getLineLength()
+    {
+        return vertexBuff.size();
+    }
     public void insertVertexInLine(float x, float y, float z)
     {
         mLine.insertVertex(x,y,z);

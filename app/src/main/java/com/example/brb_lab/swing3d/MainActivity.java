@@ -41,6 +41,7 @@ public class MainActivity extends Activity
         mGLView = new MyGLSurfaceView(this);
         mGLView.setRenderer(mRenderer);
 
+
         frameLayout1.addView(mGLView);
 
         radioButton1 = (RadioButton)findViewById(R.id.radioButton1);
@@ -80,8 +81,50 @@ public class MainActivity extends Activity
                 String data = readSwing(fileName);
 
                 mRenderer.readButtonTapped(data);
+                showRange = mRenderer.getLineLength();
             }
         });
+
+        Button button2 = (Button) findViewById(R.id.button2);
+        button2.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                MoreLine();
+            }
+        });
+
+        Button button3 = (Button) findViewById(R.id.button3);
+        button3.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                LessLine();
+            }
+        });
+    }
+    protected void MoreLine()
+    {
+        if(showRange < mRenderer.getLineLength() - 2)
+        {
+            showRange++;
+            showRange++;
+            showRange++;
+            mRenderer.DrawTo(showRange);
+        }
+    }
+
+    protected void LessLine()
+    {
+        if(showRange > 5)
+        {
+            showRange--;
+            showRange--;
+            showRange--;
+            mRenderer.DrawTo(showRange);
+        }
     }
 
     protected String readSwing(String fileName)

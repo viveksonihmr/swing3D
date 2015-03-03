@@ -64,6 +64,13 @@ public class Line
         mVertexes.add(z);
     }
 
+    public void deleteVertex()
+    {
+        mVertexes.remove(mVertexes.size());
+        mVertexes.remove(mVertexes.size());
+        mVertexes.remove(mVertexes.size());
+    }
+
     public void listToArray()
     {
         vertices = new float[mVertexes.size()];
@@ -96,6 +103,7 @@ public class Line
         colorBuffer.put(colors);
         colorBuffer.position(0);
     }
+
 
     public void clear()
     {
