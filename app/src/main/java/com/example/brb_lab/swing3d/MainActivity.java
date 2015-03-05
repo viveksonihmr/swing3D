@@ -88,7 +88,7 @@ public class MainActivity extends Activity
             }
         });
 
-        Button button2 = (Button) findViewById(R.id.button2);
+        Button button2 = (Button) findViewById(R.id.button2); //Next BUTTON
         button2.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -98,7 +98,7 @@ public class MainActivity extends Activity
             }
         });
 
-        Button button3 = (Button) findViewById(R.id.button3);
+        Button button3 = (Button) findViewById(R.id.button3); //Prev BUTTON
         button3.setOnClickListener(new View.OnClickListener()
         {
             @Override

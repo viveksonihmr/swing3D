@@ -40,7 +40,7 @@ public class MyGLSurfaceView extends GLSurfaceView
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    public boolean onTouchEvent(MotionEvent event)
+    public boolean onTouchEvent(MotionEvent event)  //Touch event
     {
         pointer = event.getPointerCount();
         switch(event.getAction())

@@ -27,7 +27,7 @@ public class MyRenderer implements GLSurfaceView.Renderer
     private float posZ = 0.0f;
     private float sizeCoef = 1.0f;
 
-    ArrayList<Float> vertexBuff = new  ArrayList<Float>();
+    ArrayList<Float> vertexBuff = new  ArrayList<Float>();       //Save total Vertex
 
     @Override
     public void onSurfaceCreated(GL10 gl, javax.microedition.khronos.egl.EGLConfig config)

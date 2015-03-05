@@ -13,7 +13,7 @@ public class Line
     private FloatBuffer vertexBuffer;
     private FloatBuffer colorBuffer;
 
-    private float[] points =
+    private float[] points =   //Not use this internal figures
             {
                     0.0f, 0.5f, 0.0f,
                     -0.5f, 0.0f, 0.5f,
