@@ -16,12 +16,23 @@ public class MyGLSurfaceView extends GLSurfaceView
     public int pointer;
     public float distance;
     private MyRenderer mRenderer;
-    float mPreviousX;
-    float mPreviousY;
-    int clickCount = 0;
-    int moveMode = 0;
-    float dx;
-    float dy;
+    private float mPreviousX1;
+    private float mPreviousY1;
+    private float mPreviousX2;
+    private float mPreviousY2;
+    private int clickCount = 0;
+    private int moveMode = 0;
+    private float dx1;
+    private float dy1;
+    private float dx2;
+    private float dy2;
+    private float XAngle;
+    private float YAngle;
+    private float difx;
+    private float dify;
+    private float scaleXYZ = 1.0f;
+    private float newdist;
+
 
     public MyGLSurfaceView(Context context)
     {
@@ -31,42 +42,55 @@ public class MyGLSurfaceView extends GLSurfaceView
     @SuppressLint("ClickableViewAccessibility")
     public boolean onTouchEvent(MotionEvent event)
     {
+        pointer = event.getPointerCount();
         switch(event.getAction())
         {
             case MotionEvent.ACTION_DOWN:
-                pointer = 1;
-                break;
-            case MotionEvent.ACTION_POINTER_2_DOWN:
-                pointer = 2;
-                dx = event.getX() - mPreviousX;
-                dy = event.getY() - mPreviousY;
-                distance = FloatMath.sqrt(dx * dx + dy * dy);
-                break;
+                if(pointer == 1)
+                {
+                    mPreviousX1 = event.getX();
+                    mPreviousY1 = event.getY();
+                }
+                distance = 0;
+            break;
             case MotionEvent.ACTION_MOVE:
                 if(pointer == 1)
                 {
-                    dx = event.getX() - mPreviousX;
-                    dy = event.getY() - mPreviousY;
-
-                    if (moveMode == ROTATE_BUTTON) {
-                        mRenderer.setXAngle((mRenderer.getXAngle() + dx) / getWidth() * 100);
-                        mRenderer.setYAngle((mRenderer.getYAngle() + dy) / getHeight() * 100);
-                    } else if (moveMode == MOVE_BUTTON) {
-                        mRenderer.setDx((mRenderer.getDx() + dx) / getWidth());
-                        mRenderer.setDy((mRenderer.getDy() - dy) / getHeight());
+                    dx1 = event.getX() - mPreviousX1;
+                    dy1 = event.getY() - mPreviousY1;
+                    if (moveMode == ROTATE_BUTTON)
+                    {
+                        XAngle = XAngle + dx1;
+                        YAngle = YAngle + dy1;
+                        mRenderer.setXAngle(XAngle / getWidth() * 100);
+                        mRenderer.setYAngle(YAngle / getHeight() * 100);
                     }
+                    else if (moveMode == MOVE_BUTTON)
+                    {
+                        difx = difx + dx1;
+                        dify = dify - dy1;
+                        mRenderer.setDx((difx) / getWidth());
+                        mRenderer.setDy((dify) / getHeight());
+                    }
+                    mPreviousX1 = event.getX();
+                    mPreviousY1 = event.getY();
                 }
                 else if(pointer == 2)
                 {
-                    dx = event.getX() - mPreviousX;
-                    dy = event.getY() - mPreviousY;
-                    distance = FloatMath.sqrt(dx * dx + dy * dy);
+                    if(distance <= 0)
+                    {
+                        distance = FloatMath.sqrt((event.getX(0) - event.getX(1))*(event.getX(0) - event.getX(1)) + (event.getY(0) - event.getY(1))*(event.getY(0) - event.getY(1)));
+                    }
+                    newdist = FloatMath.sqrt((event.getX(0) - event.getX(1))*(event.getX(0) - event.getX(1)) + (event.getY(0) - event.getY(1))*(event.getY(0) - event.getY(1)));
+                    scaleXYZ = scaleXYZ*newdist/distance;
+                    mRenderer.scaleing(scaleXYZ);
+                    distance = newdist;
                 }
                 requestRender();
                 break;
             case MotionEvent.ACTION_UP:
-                mPreviousX = event.getX();
-                mPreviousY = event.getY();
+                mPreviousX1 = event.getX();
+                mPreviousY1 = event.getY();
                 clickCount++;
 
                 break;

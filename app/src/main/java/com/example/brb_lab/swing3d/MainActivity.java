@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -29,6 +30,7 @@ public class MainActivity extends Activity
     RadioButton radioButton1;
     RadioButton radioButton2;
     FrameLayout frameLayout1;
+    SeekBar seekBar1;
 
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -44,8 +46,11 @@ public class MainActivity extends Activity
 
         frameLayout1.addView(mGLView);
 
+
         radioButton1 = (RadioButton)findViewById(R.id.radioButton1);
         radioButton2 = (RadioButton)findViewById(R.id.radioButton2);
+        seekBar1 = (SeekBar)findViewById(R.id.seekBar1);
+        seekBar1.setMax(0);
 
         radioButton1.setOnClickListener(new View.OnClickListener()
         {
@@ -82,6 +87,8 @@ public class MainActivity extends Activity
 
                 mRenderer.readButtonTapped(data);
                 showRange = mRenderer.getLineLength();
+                seekBar1.setMax((showRange - 1)/3 );
+                seekBar1.setProgress((showRange - 1)/3);
             }
         });
 
@@ -104,6 +111,53 @@ public class MainActivity extends Activity
                 LessLine();
             }
         });
+
+        Button button4 = (Button) findViewById(R.id.button4);
+        button4.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                seekBar1.setProgress(0);
+                for(int i = 0; i <= mRenderer.getLineLength()/3; i++)
+                {
+                    try
+                    {
+                        Thread.sleep(100);
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                    MoreLine();
+                }
+
+            }
+        });
+
+
+
+        seekBar1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+        {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+            {
+                showRange = (seekBar1.getProgress() + 1)*3;
+                mRenderer.DrawTo(showRange);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar)
+            {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar)
+            {
+
+            }
+        });
     }
     protected void MoreLine()
     {
@@ -113,6 +167,13 @@ public class MainActivity extends Activity
             showRange++;
             showRange++;
             mRenderer.DrawTo(showRange);
+            seekBar1.setProgress((showRange - 1)/3);
+        }
+        else
+        {
+            showRange = mRenderer.getLineLength();
+            mRenderer.DrawTo(showRange);
+            seekBar1.setProgress((showRange - 1)/3);
         }
     }
 
@@ -124,8 +185,17 @@ public class MainActivity extends Activity
             showRange--;
             showRange--;
             mRenderer.DrawTo(showRange);
+            seekBar1.setProgress(showRange/3 - 1);
+        }
+        else
+        {
+            showRange = 0;
+            mRenderer.DrawTo(showRange);
+            seekBar1.setProgress(showRange/3 - 1);
         }
     }
+
+
 
     protected String readSwing(String fileName)
     {

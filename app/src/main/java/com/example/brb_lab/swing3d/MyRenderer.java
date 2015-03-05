@@ -9,8 +9,8 @@ import javax.microedition.khronos.opengles.GL10;
 
 public class MyRenderer implements GLSurfaceView.Renderer
 {
-    int inputButtonTapped = 0;
-    int readButtonTapped = 0;
+    private int inputButtonTapped = 0;
+    private int readButtonTapped = 0;
     static int NO_BUTTON = 0;
     static int BUTTON_TAPPED = 1;
 
@@ -25,6 +25,7 @@ public class MyRenderer implements GLSurfaceView.Renderer
     private float posX = 0.0f;
     private float posY = 0.0f;
     private float posZ = 0.0f;
+    private float sizeCoef = 1.0f;
 
     ArrayList<Float> vertexBuff = new  ArrayList<Float>();
 
@@ -57,8 +58,15 @@ public class MyRenderer implements GLSurfaceView.Renderer
         gl.glLineWidth(5.0f);
         gl.glRotatef(xAngle, 0.0f, 1.0f, 0.0f);
         gl.glRotatef(yAngle, 1.0f, 0.0f, 0.0f);
-
-        mLine.listToArray();
+        gl.glScalef(sizeCoef, sizeCoef, sizeCoef);
+        try
+        {
+            mLine.listToArray();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
 
         mLine.draw(gl);
     }
@@ -75,6 +83,16 @@ public class MyRenderer implements GLSurfaceView.Renderer
         posY = y;
         posZ = z;
         inputButtonTapped = 1;
+    }
+
+    public void scaleing(float size)
+    {
+        sizeCoef = size;
+    }
+
+    public float getSizeCoef()
+    {
+        return sizeCoef;
     }
 
     public ArrayList<Float> readButtonTapped(String data)
@@ -147,10 +165,6 @@ public class MyRenderer implements GLSurfaceView.Renderer
     {
         mDy = dy;
     }
-    public void setDz(float dz)
-    {
-        mDz = dz;
-    }
     public float getDx()
     {
         return mDx;
@@ -159,10 +173,7 @@ public class MyRenderer implements GLSurfaceView.Renderer
     {
         return mDy;
     }
-    public float getDz()
-    {
-        return mDz;
-    }
+
 
 
 }

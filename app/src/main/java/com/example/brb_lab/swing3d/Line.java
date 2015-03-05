@@ -13,7 +13,7 @@ public class Line
     private FloatBuffer vertexBuffer;
     private FloatBuffer colorBuffer;
 
-    private float[] vertices =
+    private float[] points =
             {
                     0.0f, 0.5f, 0.0f,
                     -0.5f, 0.0f, 0.5f,
@@ -30,17 +30,7 @@ public class Line
 
     public Line()
     {
-        ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
-        byteBuf.order(ByteOrder.nativeOrder());
-        vertexBuffer = byteBuf.asFloatBuffer();
-        vertexBuffer.put(vertices);
-        vertexBuffer.position(0);
 
-        byteBuf = ByteBuffer.allocateDirect(colors.length * 4);
-        byteBuf.order(ByteOrder.nativeOrder());
-        colorBuffer = byteBuf.asFloatBuffer();
-        colorBuffer.put(colors);
-        colorBuffer.position(0);
     }
 
     public void draw(GL10 gl)
@@ -51,7 +41,7 @@ public class Line
 
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
-        gl.glDrawArrays(GL10.GL_LINE_STRIP, 0, vertices.length/3);
+        gl.glDrawArrays(GL10.GL_LINE_STRIP, 0, points.length/3);
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
     }
@@ -73,19 +63,19 @@ public class Line
 
     public void listToArray()
     {
-        vertices = new float[mVertexes.size()];
+        points = new float[mVertexes.size()];
         colors = new float[mVertexes.size()/3*4];
         for (int i = 0; i < mVertexes.size(); i++)
         {
-            vertices[i] = mVertexes.get(i);
+            points[i] = mVertexes.get(i);
         }
-        ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
+        ByteBuffer byteBuf = ByteBuffer.allocateDirect(points.length * 4);
         byteBuf.order(ByteOrder.nativeOrder());
         vertexBuffer = byteBuf.asFloatBuffer();
-        vertexBuffer.put(vertices);
+        vertexBuffer.put(points);
         vertexBuffer.position(0);
 
-        for (int i = 0; i < mVertexes.size()/3*4; i++)
+        for (int i = 0; i < colors.length; i++)
         {
             if ((i+1)%4 == 0 || (i+1)%5 == 0)
             {
