@@ -1,7 +1,7 @@
 package com.example.brb_lab.swing3d;
 
 import android.app.Activity;
-import android.opengl.GLSurfaceView;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
@@ -24,8 +24,7 @@ import java.util.ArrayList;
 public class MainActivity extends Activity
 {
     private int showRange;
-    private MyGLSurfaceView mGLView;
-    private MyRenderer mRenderer;
+    GLThread partGL = new GLThread();
 
     RadioButton radioButton1;
     RadioButton radioButton2;
@@ -39,12 +38,9 @@ public class MainActivity extends Activity
 
         frameLayout1 = (FrameLayout) findViewById(R.id.FrameLayout1);
 
-        mRenderer = new MyRenderer(this);
-        mGLView = new MyGLSurfaceView(this);
-        mGLView.setRenderer(mRenderer);
+        partGL.Initianl(this);
 
-
-        frameLayout1.addView(mGLView);
+        frameLayout1.addView(partGL.getGLView());
 
 
         radioButton1 = (RadioButton)findViewById(R.id.radioButton1);
@@ -59,7 +55,7 @@ public class MainActivity extends Activity
             {
                 if(radioButton1.isChecked())
                 {
-                    mGLView.setMoveMode(mGLView.ROTATE_BUTTON);
+                    partGL.getGLView().setMoveMode(partGL.getGLView().ROTATE_BUTTON);
                 }
             }
         });
@@ -71,7 +67,7 @@ public class MainActivity extends Activity
             {
                 if(radioButton2.isChecked())
                 {
-                    mGLView.setMoveMode(mGLView.MOVE_BUTTON);
+                    partGL.getGLView().setMoveMode(partGL.getGLView().MOVE_BUTTON);
                 }
             }
         });
@@ -85,8 +81,8 @@ public class MainActivity extends Activity
                 String fileName = "/sdcard/3Dswing/test.txt";
                 String data = readSwing(fileName);
 
-                mRenderer.readButtonTapped(data);
-                showRange = mRenderer.getLineLength();
+                partGL.getRenderer().readButtonTapped(data);
+                showRange = partGL.getRenderer().getLineLength();
                 seekBar1.setMax((showRange - 1)/3 );
                 seekBar1.setProgress((showRange - 1)/3);
             }
@@ -119,7 +115,7 @@ public class MainActivity extends Activity
             public void onClick(View v)
             {
                 seekBar1.setProgress(0);
-                for(int i = 0; i <= mRenderer.getLineLength()/3; i++)
+                for(int i = 0; i <= partGL.getRenderer().getLineLength()/3; i++)
                 {
                     try
                     {
@@ -143,7 +139,7 @@ public class MainActivity extends Activity
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
             {
                 showRange = (seekBar1.getProgress() + 1)*3;
-                mRenderer.DrawTo(showRange);
+                partGL.getRenderer().DrawTo(showRange);
             }
 
             @Override
@@ -161,18 +157,16 @@ public class MainActivity extends Activity
     }
     protected void MoreLine()
     {
-        if(showRange < mRenderer.getLineLength() - 2)
+        if(showRange < partGL.getRenderer().getLineLength() - 2)
         {
             showRange++;
             showRange++;
             showRange++;
-            mRenderer.DrawTo(showRange);
             seekBar1.setProgress((showRange - 1)/3);
         }
         else
         {
-            showRange = mRenderer.getLineLength();
-            mRenderer.DrawTo(showRange);
+            showRange = partGL.getRenderer().getLineLength();
             seekBar1.setProgress((showRange - 1)/3);
         }
     }
@@ -184,13 +178,11 @@ public class MainActivity extends Activity
             showRange--;
             showRange--;
             showRange--;
-            mRenderer.DrawTo(showRange);
             seekBar1.setProgress(showRange/3 - 1);
         }
         else
         {
             showRange = 0;
-            mRenderer.DrawTo(showRange);
             seekBar1.setProgress(showRange/3 - 1);
         }
     }
@@ -230,12 +222,12 @@ public class MainActivity extends Activity
     @Override
     protected void onPause() {
         super.onPause();
-        mGLView.onPause();
+        partGL.getGLView().onPause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mGLView.onResume();
+        partGL.getGLView().onResume();
     }
 }
