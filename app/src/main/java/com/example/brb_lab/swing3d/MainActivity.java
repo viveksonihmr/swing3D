@@ -81,14 +81,8 @@ public class MainActivity extends Activity
             @Override
             public void onClick(View v)
             {
-                String fileName = "/sdcard/3Dswing/test.txt";
-                String data = readSwing(fileName);
-
-                mRenderer.readButtonTapped(data);
-                showRange = mRenderer.getLineLength();
-                seekBar1.setMax((showRange - 1)/3 );
-                seekBar1.setProgress((showRange - 1)/3);
-                mGLView.requestRender();
+                DataIOThread dataIO = new DataIOThread(mRenderer,showRange,seekBar1,mGLView);
+                dataIO.readFile();
             }
         });
 
@@ -192,35 +186,6 @@ public class MainActivity extends Activity
 
 
 
-    protected String readSwing(String fileName)
-    {
-        File file = new File(fileName);
-        String outPut = null;
-        try
-        {
-            FileInputStream inputStream = new FileInputStream(file);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
-            StringBuffer StrBuf = new StringBuffer();
-            String aLine = "";
-            while(aLine != null)
-            {
-                aLine = reader.readLine();
-                if(aLine != null)
-                {
-                    StrBuf.append(aLine + "\n");
-                }
-            }
-            outPut = StrBuf.toString();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Toast.makeText(this,"File read FAIL",Toast.LENGTH_LONG).show();
-        }
-
-        return outPut;
-    }
 
     @Override
     protected void onPause() {
