@@ -1,7 +1,7 @@
 package com.example.brb_lab.swing3d;
 
 import android.app.Activity;
-
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
@@ -24,7 +24,8 @@ import java.util.ArrayList;
 public class MainActivity extends Activity
 {
     private int showRange;
-    GLThread partGL = new GLThread();
+    private MyGLSurfaceView mGLView;
+    private MyRenderer mRenderer;
 
     RadioButton radioButton1;
     RadioButton radioButton2;
@@ -38,10 +39,12 @@ public class MainActivity extends Activity
 
         frameLayout1 = (FrameLayout) findViewById(R.id.FrameLayout1);
 
-        partGL.Initianl(this);
+        mRenderer = new MyRenderer(this);
+        mGLView = new MyGLSurfaceView(this);
+        mGLView.setRenderer(mRenderer);
+        mGLView.setRenderMode(mGLView.RENDERMODE_WHEN_DIRTY);
 
-        frameLayout1.addView(partGL.getGLView());
-
+        frameLayout1.addView(mGLView);
 
         radioButton1 = (RadioButton)findViewById(R.id.radioButton1);
         radioButton2 = (RadioButton)findViewById(R.id.radioButton2);
@@ -55,7 +58,7 @@ public class MainActivity extends Activity
             {
                 if(radioButton1.isChecked())
                 {
-                    partGL.getGLView().setMoveMode(partGL.getGLView().ROTATE_BUTTON);
+                    mGLView.setMoveMode(mGLView.ROTATE_BUTTON);
                 }
             }
         });
@@ -67,12 +70,12 @@ public class MainActivity extends Activity
             {
                 if(radioButton2.isChecked())
                 {
-                    partGL.getGLView().setMoveMode(partGL.getGLView().MOVE_BUTTON);
+                    mGLView.setMoveMode(mGLView.MOVE_BUTTON);
                 }
             }
         });
 
-        Button button1 = (Button) findViewById(R.id.button1);
+        Button button1 = (Button) findViewById(R.id.button1);  //read file
         button1.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -81,14 +84,15 @@ public class MainActivity extends Activity
                 String fileName = "/sdcard/3Dswing/test.txt";
                 String data = readSwing(fileName);
 
-                partGL.getRenderer().readButtonTapped(data);
-                showRange = partGL.getRenderer().getLineLength();
+                mRenderer.readButtonTapped(data);
+                showRange = mRenderer.getLineLength();
                 seekBar1.setMax((showRange - 1)/3 );
                 seekBar1.setProgress((showRange - 1)/3);
+                mGLView.requestRender();
             }
         });
 
-        Button button2 = (Button) findViewById(R.id.button2); //Next BUTTON
+        Button button2 = (Button) findViewById(R.id.button2);
         button2.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -98,7 +102,7 @@ public class MainActivity extends Activity
             }
         });
 
-        Button button3 = (Button) findViewById(R.id.button3); //Prev BUTTON
+        Button button3 = (Button) findViewById(R.id.button3);
         button3.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -115,7 +119,7 @@ public class MainActivity extends Activity
             public void onClick(View v)
             {
                 seekBar1.setProgress(0);
-                for(int i = 0; i <= partGL.getRenderer().getLineLength()/3; i++)
+                for(int i = 0; i <= mRenderer.getLineLength()/3; i++)
                 {
                     try
                     {
@@ -131,15 +135,14 @@ public class MainActivity extends Activity
             }
         });
 
-
-
         seekBar1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
         {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
             {
                 showRange = (seekBar1.getProgress() + 1)*3;
-                partGL.getRenderer().DrawTo(showRange);
+                mRenderer.DrawTo(showRange);
+                mGLView.requestRender();
             }
 
             @Override
@@ -157,7 +160,7 @@ public class MainActivity extends Activity
     }
     protected void MoreLine()
     {
-        if(showRange < partGL.getRenderer().getLineLength() - 2)
+        if(showRange < mRenderer.getLineLength() - 2)
         {
             showRange++;
             showRange++;
@@ -166,7 +169,7 @@ public class MainActivity extends Activity
         }
         else
         {
-            showRange = partGL.getRenderer().getLineLength();
+            showRange = mRenderer.getLineLength();
             seekBar1.setProgress((showRange - 1)/3);
         }
     }
@@ -183,7 +186,7 @@ public class MainActivity extends Activity
         else
         {
             showRange = 0;
-            seekBar1.setProgress(showRange/3 - 1);
+            seekBar1.setProgress(0);
         }
     }
 
@@ -222,12 +225,12 @@ public class MainActivity extends Activity
     @Override
     protected void onPause() {
         super.onPause();
-        partGL.getGLView().onPause();
+        mGLView.onPause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        partGL.getGLView().onResume();
+        mGLView.onResume();
     }
 }

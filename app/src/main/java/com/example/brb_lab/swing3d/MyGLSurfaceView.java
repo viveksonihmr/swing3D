@@ -10,7 +10,6 @@ import android.view.MotionEvent;
 
 public class MyGLSurfaceView extends GLSurfaceView
 {
-    public static int NO_BUTTON = 0;
     public static int ROTATE_BUTTON = 1;
     public static int MOVE_BUTTON = 2;
     public int pointer;
@@ -18,14 +17,9 @@ public class MyGLSurfaceView extends GLSurfaceView
     private MyRenderer mRenderer;
     private float mPreviousX1;
     private float mPreviousY1;
-    private float mPreviousX2;
-    private float mPreviousY2;
-    private int clickCount = 0;
     private int moveMode = 0;
     private float dx1;
     private float dy1;
-    private float dx2;
-    private float dy2;
     private float XAngle;
     private float YAngle;
     private float difx;
@@ -91,8 +85,6 @@ public class MyGLSurfaceView extends GLSurfaceView
             case MotionEvent.ACTION_UP:
                 mPreviousX1 = event.getX();
                 mPreviousY1 = event.getY();
-                clickCount++;
-
                 break;
         }
 

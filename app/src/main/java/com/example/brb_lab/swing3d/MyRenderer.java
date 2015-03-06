@@ -74,7 +74,6 @@ public class MyRenderer implements GLSurfaceView.Renderer
     public void onSurfaceChanged(GL10 gl, int width, int height)
     {
         gl.glViewport(0, 0, width, height);
-        gl.glOrthof(-10.0f, 10.0f, -10.0f, 10.0f, -10.0f, 10.0f);
     }
 
     public void inputButtonTapped(float x, float y, float z)
@@ -83,16 +82,6 @@ public class MyRenderer implements GLSurfaceView.Renderer
         posY = y;
         posZ = z;
         inputButtonTapped = 1;
-    }
-
-    public void scaleing(float size)
-    {
-        sizeCoef = size;
-    }
-
-    public float getSizeCoef()
-    {
-        return sizeCoef;
     }
 
     public ArrayList<Float> readButtonTapped(String data)
@@ -172,6 +161,14 @@ public class MyRenderer implements GLSurfaceView.Renderer
     public float getDy()
     {
         return mDy;
+    }
+    public void scaleing(float size)
+    {
+        sizeCoef = size;
+    }
+    public float getSizeCoef()
+    {
+        return sizeCoef;
     }
 
 
