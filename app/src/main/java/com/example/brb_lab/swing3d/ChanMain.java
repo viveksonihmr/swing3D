@@ -1,6 +1,7 @@
 package com.example.brb_lab.swing3d;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -16,6 +17,7 @@ public class ChanMain extends Activity
     private MyRenderer mRenderer;
     private int findRng = 0;
     Handler mHandler = new Handler();
+    DataHandler swingSave = new DataHandler();
 
     RadioButton radioButton1;
     RadioButton radioButton2;
@@ -69,8 +71,8 @@ public class ChanMain extends Activity
             @Override
             public void onClick(View v)
             {
-                DataIOThread dataIO = new DataIOThread(mRenderer,showRange,seekBar1,mGLView);
-                dataIO.readFile();
+                Intent mFileListView = new Intent(getApplicationContext(),FileListViewActivity.class);
+                startActivity(mFileListView);
             }
         });
 
@@ -189,6 +191,7 @@ public class ChanMain extends Activity
     {
         super.onPause();
         mGLView.onPause();
+        swingSave.setList(mRenderer.getVertexBuff());
     }
 
     @Override
@@ -196,5 +199,6 @@ public class ChanMain extends Activity
     {
         super.onResume();
         mGLView.onResume();
+        mRenderer.setVertexBuff(swingSave.getList());
     }
 }

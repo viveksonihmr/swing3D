@@ -170,6 +170,14 @@ public class MyRenderer implements GLSurfaceView.Renderer
     {
         return sizeCoef;
     }
+    public ArrayList<Float> getVertexBuff()
+    {
+        return vertexBuff;
+    }
+    public void setVertexBuff(ArrayList<Float> vtex)
+    {
+        vertexBuff = vtex;
+    }
 
 
 

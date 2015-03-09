@@ -20,6 +20,9 @@
             android:name=".ChanMain"
             android:screenOrientation="landscape">
         </activity>
+        <activity
+            android:name=".FileListViewActivity">
+        </activity>
     </application>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
