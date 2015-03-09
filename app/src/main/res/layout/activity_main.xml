@@ -9,15 +9,15 @@
     tools:context=".MainActivity">
 
     <FrameLayout
-        android:layout_width="830dp"
-        android:layout_height="461dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/FrameLayout1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_above="@+id/seekBar1"
         android:layout_below="@+id/radioGroup1"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"></FrameLayout>
+        android:layout_alignParentEnd="true">
+
+    </FrameLayout>
 
     <SeekBar
         android:layout_width="wrap_content"

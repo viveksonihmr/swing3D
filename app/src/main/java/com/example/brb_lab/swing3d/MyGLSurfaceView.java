@@ -62,7 +62,7 @@ public class MyGLSurfaceView extends GLSurfaceView
                     else if (moveMode == MOVE_BUTTON)
                     {
                         difx = difx + dx1;
-                        dify = dify - dy1;
+                        dify = dify + dy1;
                         mRenderer.setDx((difx) / getWidth());
                         mRenderer.setDy((dify) / getHeight());
                     }
