@@ -8,16 +8,29 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/FrameLayout1"
+        android:layout_height="match_parent"
+        android:id="@+id/LinearLayout"
         android:layout_above="@+id/seekBar1"
         android:layout_below="@+id/radioGroup1"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
+        android:weightSum="1"
+        android:gravity="left"
+        android:baselineAligned="false"
+        android:longClickable="false">
 
-    </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:id="@+id/FrameLayout2"></FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.50"
+            android:id="@+id/FrameLayout1"></FrameLayout>
+    </LinearLayout>
 
     <SeekBar
         android:layout_width="wrap_content"
@@ -25,8 +38,8 @@
         android:id="@+id/seekBar1"
         android:indeterminate="false"
         android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/FrameLayout1"
-        android:layout_alignStart="@+id/FrameLayout1"
+        android:layout_alignLeft="@+id/LinearLayout"
+        android:layout_alignStart="@+id/LinearLayout"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
@@ -34,8 +47,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/radioGroup1"
-        android:layout_alignLeft="@+id/FrameLayout1"
-        android:layout_alignStart="@+id/FrameLayout1">
+        android:layout_alignLeft="@+id/LinearLayout"
+        android:layout_alignStart="@+id/LinearLayout">
 
         <RadioButton
             android:layout_width="wrap_content"

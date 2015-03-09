@@ -163,6 +163,10 @@ public class MainActivity extends Activity
                 seekBar1.setProgress(0);
                 while(findRng < seekBar1.getMax())
                 {
+                    if(seekBar1.getProgress() == 0)
+                    {
+                        break;
+                    }
                     try
                     {
                         Thread.sleep(100);
