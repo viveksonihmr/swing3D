@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.sql.Time;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity
@@ -26,6 +28,8 @@ public class MainActivity extends Activity
     private int showRange;
     private MyGLSurfaceView mGLView;
     private MyRenderer mRenderer;
+    Handler mHandler = new Handler();
+
 
     RadioButton radioButton1;
     RadioButton radioButton2;
@@ -112,20 +116,10 @@ public class MainActivity extends Activity
             @Override
             public void onClick(View v)
             {
-                seekBar1.setProgress(0);
                 for(int i = 0; i <= mRenderer.getLineLength()/3; i++)
                 {
-                    try
-                    {
-                        Thread.sleep(100);
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                    MoreLine();
+                    seekBar1.setProgress(i);
                 }
-
             }
         });
 
@@ -156,9 +150,7 @@ public class MainActivity extends Activity
     {
         if(showRange < mRenderer.getLineLength() - 2)
         {
-            showRange++;
-            showRange++;
-            showRange++;
+            showRange += 3;
             seekBar1.setProgress((showRange - 1)/3);
         }
         else
@@ -172,9 +164,7 @@ public class MainActivity extends Activity
     {
         if(showRange > 5)
         {
-            showRange--;
-            showRange--;
-            showRange--;
+            showRange -= 3;
             seekBar1.setProgress(showRange/3 - 1);
         }
         else
@@ -188,13 +178,15 @@ public class MainActivity extends Activity
 
 
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
         super.onPause();
         mGLView.onPause();
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
         mGLView.onResume();
     }
