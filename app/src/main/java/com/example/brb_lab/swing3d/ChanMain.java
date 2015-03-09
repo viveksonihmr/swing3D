@@ -9,7 +9,7 @@ import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
 
-public class MainActivity extends Activity
+public class ChanMain extends Activity
 {
     private int showRange;
     private MyGLSurfaceView mGLView;
@@ -25,7 +25,7 @@ public class MainActivity extends Activity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_chan);
 
         frameLayout1 = (FrameLayout) findViewById(R.id.FrameLayout1);
 

@@ -19,7 +19,7 @@ public class UpperActivity extends Activity
             @Override
             public void onClick(View v)
             {
-                Intent mChanYoung = new Intent(getApplicationContext(),MainActivity.class);
+                Intent mChanYoung = new Intent(getApplicationContext(),ChanMain.class);
                 startActivity(mChanYoung);
             }
         });
