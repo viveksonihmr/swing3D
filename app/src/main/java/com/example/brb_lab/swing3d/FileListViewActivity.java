@@ -18,11 +18,11 @@ import android.widget.TextView;
 
 public class FileListViewActivity extends Activity
 {
-    ListView listView1;
-    String route = "/sdcard/";
-    File[] mFiles;
-
-    TextView textView1;
+    private ListView listView1;
+    private String route = "/sdcard/";
+    private File[] mFiles;
+    private TextView textView1;
+    private int routeNo = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -47,17 +47,29 @@ public class FileListViewActivity extends Activity
                 if(!parent.getAdapter().getItem(position).toString().toLowerCase().contains("."))
                 {
                     route += parent.getAdapter().getItem(position).toString() + "/";
-                    FileProfile();
-                    listView1.setAdapter(new ListStructureAdaptor(getBaseContext(), mFiles, route));
+                    routeNo++;
                 }
                 else if(parent.getAdapter().getItem(position).toString() == "...")
                 {
+                    if (routeNo != 0)
+                    {
+                        String[] routePart = route.split("/");
 
+                        for (int i = 0; i < routePart.length - 1; i++)
+                        {
+                            route = "/" + routePart[i].toString();
+                        }
+                        route += "/";
+                        routeNo--;
+                    }
                 }
                 else if(parent.getAdapter().getItem(position).toString().endsWith(".swg"))
                 {
 
                 }
+                FileProfile();
+                listView1.setAdapter(new ListStructureAdaptor(getBaseContext(), mFiles, route));
+                textView1.setText(route);
             }
         });
     }
