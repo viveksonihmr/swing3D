@@ -33,14 +33,11 @@ public class MainActivity extends Activity
         mGLView = new MyGLSurfaceView(this);
         mGLView.setRenderer(mRenderer);
         mGLView.setRenderMode(mGLView.RENDERMODE_WHEN_DIRTY);
-
         frameLayout1.addView(mGLView);
 
         radioButton1 = (RadioButton)findViewById(R.id.radioButton1);
         radioButton2 = (RadioButton)findViewById(R.id.radioButton2);
         seekBar1 = (SeekBar)findViewById(R.id.seekBar1);
-
-
 
         radioButton1.setOnClickListener(new View.OnClickListener()
         {
@@ -149,7 +146,7 @@ public class MainActivity extends Activity
     {
         if(showRange > 5)
         {
-            seekBar1.setProgress(seekBar1.getProgress());
+            seekBar1.setProgress(seekBar1.getProgress()-1);
         }
     }
 
@@ -163,7 +160,7 @@ public class MainActivity extends Activity
                 seekBar1.setProgress(0);
                 while(findRng < seekBar1.getMax())
                 {
-                    if(seekBar1.getProgress() == 0)
+                    if(seekBar1.getMax() == 0)
                     {
                         break;
                     }
