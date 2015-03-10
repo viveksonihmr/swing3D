@@ -2,9 +2,11 @@ package com.example.brb_lab.swing3d;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
@@ -27,6 +29,9 @@ public class ChanMain extends Activity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+
+
         setContentView(R.layout.activity_chan);
 
         frameLayout1 = (FrameLayout) findViewById(R.id.FrameLayout1);

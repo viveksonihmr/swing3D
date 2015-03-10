@@ -23,6 +23,16 @@ public class UpperActivity extends Activity
                 startActivity(mChanYoung);
             }
         });
+        Button button8 = (Button)findViewById(R.id.button8);
+        button8.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent mVivek = new Intent(getApplicationContext(),vivekactivity.class);
+                startActivity( mVivek);
+            }
+        });
     }
 
     public void onPause()
